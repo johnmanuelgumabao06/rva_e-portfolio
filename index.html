@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Portfolio - John Manuel M. Gumabao</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --cream: #f5f0e8;
+    --warm: #e8dcc8;
+    --gold: #c9973a;
+    --gold-light: #e8b85a;
+    --rust: #8b3a1e;
+    --muted: #7a6e5f;
+    --film: #2a1f0e;
+    --strip: #f0e6c8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 64px;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--warm);
+    z-index: 99;
+  }
+  nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  nav ul { list-style: none; display: flex; gap: 36px; }
+  nav ul a {
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--gold); }
+
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 80px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 40%, rgba(201,151,58,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(139,58,30,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .aperture {
+    position: absolute;
+    right: 120px; top: 50%;
+    transform: translateY(-50%);
+    width: 340px; height: 340px;
+    opacity: 0.18;
+  }
+  .aperture circle { fill: none; stroke: var(--gold); }
+  .aperture line { stroke: var(--gold); stroke-width: 1; }
+
+  .hero-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 5.5vw, 5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    animation: fadeUp 0.8s 0.1s ease both;
+    color: var(--ink);
+    font-style: normal;
+  }
+  .hero-name .name-accent {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .pill {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px; left: 80px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    animation: fadeUp 1s 0.5s ease both;
+  }
+  .scroll-hint::before { content: ''; width: 40px; height: 1px; background: var(--muted); }
+
+  section { padding: 100px 80px; position: relative; }
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 60px;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  #experience { background: var(--cream); }
+  .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .exp-card {
+    background: var(--warm);
+    border: 1px solid rgba(201,151,58,0.2);
+    padding: 48px 44px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--gold);
+  }
+  .exp-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(201,151,58,0.15); }
+  .exp-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .exp-card p { font-size: 0.92rem; line-height: 1.85; color: #4a3f30; }
+  .exp-tag {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 4px 14px;
+    background: rgba(201,151,58,0.15);
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    border-radius: 3px;
+  }
+
+  #feedback { background: var(--film); color: var(--strip); }
+  #feedback .section-label { color: var(--gold-light); }
+  #feedback .section-title { color: var(--strip); }
+  #feedback .section-title em { color: var(--gold-light); }
+  .feedback-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .feedback-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,151,58,0.25);
+    padding: 44px 40px;
+    position: relative;
+  }
+  .feedback-card .quote-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; line-height: 1;
+    color: var(--gold); opacity: 0.4;
+    position: absolute; top: 16px; left: 36px;
+  }
+  .feedback-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    margin-bottom: 16px; margin-top: 32px;
+    color: var(--gold-light);
+  }
+  .feedback-card p { font-size: 0.92rem; line-height: 1.85; color: rgba(245,240,232,0.8); }
+  .rating-row { display: flex; gap: 6px; margin-top: 20px; }
+  .star { color: var(--gold); font-size: 1rem; }
+
+  #quiz { background: var(--cream); }
+  .quiz-timeline { position: relative; padding-left: 48px; }
+  .quiz-timeline::before {
+    content: '';
+    position: absolute;
+    left: 12px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .quiz-item {
+    position: relative;
+    margin-bottom: 72px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .quiz-item.visible { opacity: 1; transform: translateX(0); }
+  .quiz-item::before {
+    content: '';
+    position: absolute;
+    left: -42px; top: 6px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+  .quiz-date {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .quiz-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .quiz-item > p {
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: #4a3f30;
+    max-width: 680px;
+  }
+  .reflection-box {
+    margin-top: 20px;
+    padding: 24px 28px;
+    border-left: 3px solid var(--gold);
+    background: rgba(201,151,58,0.07);
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 680px;
+  }
+  .reflection-box strong {
+    display: block;
+    font-style: normal;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .output-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
+    max-width: 680px;
+  }
+  .output-img-wrap {
+    position: relative;
+    border: 1px solid rgba(201,151,58,0.3);
+    background: var(--warm);
+    overflow: hidden;
+    flex: 1 1 280px;
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .output-img-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+    transition: transform 0.3s;
+  }
+  .output-img-wrap img:hover { transform: scale(1.02); }
+  .img-placeholder {
+    padding: 32px 24px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .img-placeholder span {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  #lightbox {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(26,18,8,0.93);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  #lightbox.active { display: flex; }
+  #lightbox img {
+    max-width: 90vw;
+    max-height: 88vh;
+    object-fit: contain;
+    border: 1px solid rgba(201,151,58,0.3);
+  }
+  #lightbox-close {
+    position: absolute;
+    top: 24px; right: 36px;
+    font-size: 2rem;
+    color: var(--gold);
+    cursor: pointer;
+    background: none; border: none;
+    line-height: 1;
+  }
+
+  footer {
+    background: var(--film);
+    color: rgba(245,240,232,0.5);
+    text-align: center;
+    padding: 48px 80px;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+  }
+  footer .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    nav { padding: 16px 24px; }
+    #hero { padding: 100px 32px 60px; }
+    section { padding: 72px 32px; }
+    .aperture { display: none; }
+    .exp-grid, .feedback-grid { grid-template-columns: 1fr; }
+    .scroll-hint { left: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="lightbox">
+  <button id="lightbox-close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<nav>
+  <span class="logo">E-Portfolio</span>
+  <ul>
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#feedback">Feedback</a></li>
+    <li><a href="#quiz">Outputs</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <svg class="aperture" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="170" cy="170" r="160" stroke-width="1"/>
+    <circle cx="170" cy="170" r="130" stroke-width="0.5"/>
+    <circle cx="170" cy="170" r="100" stroke-width="1.5"/>
+    <circle cx="170" cy="170" r="60"  stroke-width="0.8"/>
+    <circle cx="170" cy="170" r="20"  stroke-width="2"/>
+    <line x1="170" y1="10"  x2="170" y2="330" stroke-width="0.5"/>
+    <line x1="10"  y1="170" x2="330" y2="170" stroke-width="0.5"/>
+    <line x1="57"  y1="57"  x2="283" y2="283" stroke-width="0.5"/>
+    <line x1="283" y1="57"  x2="57"  y2="283" stroke-width="0.5"/>
+    <line x1="30"  y1="110" x2="310" y2="230" stroke-width="0.3"/>
+    <line x1="30"  y1="230" x2="310" y2="110" stroke-width="0.3"/>
+    <line x1="110" y1="10"  x2="230" y2="330" stroke-width="0.3"/>
+    <line x1="230" y1="10"  x2="110" y2="330" stroke-width="0.3"/>
+  </svg>
+
+  <p class="hero-label">Academic E-Portfolio</p>
+  <h1 class="hero-name">JOHN <span class="name-accent">MANUEL</span> M. GUMABAO</h1>
+  <p class="hero-sub">Bachelor of Science in Information Technology</p>
+  <div class="hero-pills">
+    <span class="pill">2nd Year</span>
+    <span class="pill">Block A</span>
+  </div>
+  <div class="scroll-hint">Scroll to explore</div>
+</section>
+
+<section id="experience">
+  <p class="section-label reveal">01 &mdash; Experience</p>
+  <h2 class="section-title reveal">What I <em>Learned</em></h2>
+  <div class="exp-grid">
+    <div class="exp-card reveal">
+      <h3>Photography &amp; Camera Operations</h3>
+      <p>
+        I have learned different terminologies in one of the topics, Photography. This contributed in expanding my knowledge about cameras &mdash; lenses, aperture, exposure, and framing techniques that I had only understood intuitively before.
+        <br><br>
+        This knowledge directly benefits me since I am currently part of film productions as a hobby and every now and then I play the role of camera operator. Now I can name what I do.
+      </p>
+      <span class="exp-tag">Photography</span>
+    </div>
+    <div class="exp-card reveal" style="transition-delay:0.1s;">
+      <h3>Theater Arts &amp; Stage Genres</h3>
+      <p>
+        Through our group reporting on Theater, I was able to differentiate the different genres with examples both internationally and locally produced theater plays &mdash; from Greek tragedy to Filipino komedya.
+        <br><br>
+        I also discovered the various theater stage configurations and the core elements that transform a performance into a genuine theatrical experience.
+      </p>
+      <span class="exp-tag">Theater</span>
+    </div>
+  </div>
+</section>
+
+<section id="feedback">
+  <p class="section-label reveal">02 &mdash; Feedback to Instructor</p>
+  <h2 class="section-title reveal">My <em>Thoughts</em></h2>
+  <div class="feedback-grid">
+    <div class="feedback-card reveal">
+      <span class="quote-mark">"</span>
+      <h3>On the Quizzes &amp; Examinations</h3>
+      <p>
+        The quizzes are well-calibrated in terms of difficulty &mdash; not so easy that we learn nothing, and not so difficult that we dread every examination. They are just the right level for a minor subject, encouraging genuine recall without being overwhelming.
+      </p>
+      <div class="rating-row">
+        <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span>
+      </div>
+    </div>
+    <div class="feedback-card reveal" style="transition-delay:0.1s;">
+      <span class="quote-mark">"</span>
+      <h3>On Communication &amp; Flexibility</h3>
+      <p>
+        There is meaningful and open communication between us students and our professors, and we always reach a mutual agreement. I would also like to express my sincere gratitude for allowing the class to shift to online modality in consideration of the intense heat we were experiencing.
+      </p>
+      <div class="rating-row">
+        <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="quiz">
+  <p class="section-label reveal">03 &mdash; Quizzes &amp; Outputs</p>
+  <h2 class="section-title reveal">Academic <em>Outputs</em></h2>
+  <div class="quiz-timeline">
+
+    <div class="quiz-item">
+      <p class="quiz-date">Activity 01</p>
+      <h3>Introductory Activity</h3>
+      <p>This marked our very first interaction with our instructor. Despite not having face-to-face classes, we were still able to meaningfully share our individual thoughts, goals, and expectations through this activity &mdash; bridging the distance from the very start.</p>
+      <div class="output-images">
+        <div class="output-img-wrap">
+          <img src="https://drive.google.com/uc?export=view&id=11h3PK9ThrN5OZ2V4i1HcvapP4PckvgQ9" alt="Introductory Activity" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;img-placeholder&quot;><span>IntroAct.jpg</span></div>'">
+        </div>
+      </div>
+      <div class="reflection-box">
+        <strong>Personal Reflection</strong>
+        This activity set a collaborative tone for the entire semester. It reminded me that learning is not just about content &mdash; it is also about connection we form with our instructor. It also made an impression to me that our instructor is open-minded about feedbacks.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <p class="quiz-date">Quiz 01</p>
+      <h3>Quiz No. 1</h3>
+      <p>Our first quiz alongside our first face-to-face meeting about different forms of art.</p>
+      <div class="output-images">
+        <div class="output-img-wrap">
+          <img src="https://drive.google.com/uc?export=view&id=1DCVTMvO13w7zaddT74f7AHGCqVWrj-Vd" alt="Quiz 01 - Page 1" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;img-placeholder&quot;><span>Quiz01_1.jpg</span></div>'">
+        </div>
+        <div class="output-img-wrap">
+          <img src="https://drive.google.com/uc?export=view&id=1O5MpGPfWzVNpkbXO7KUDsie8oWeJmcZh" alt="Quiz 01 - Page 2" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;img-placeholder&quot;><span>Quiz01_2.jpg</span></div>'">
+        </div>
+      </div>
+      <div class="reflection-box">
+        <strong>Personal Reflection</strong>
+        Here I learned about the different forms of art from sculptures to paintings and photography to mixed media. I also remembered about the different painting mixtures.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <p class="quiz-date">Long Quiz 01 &mdash; March 12, 2026</p>
+      <h3>Long Quiz No. 1</h3>
+      <p>Our first long quiz, conducted on March 12, 2026, is about different forms of arts but with more depth and discussion compared to Quiz No. 1.</p>
+      <div class="output-images">
+        <div class="output-img-wrap">
+          <img src="https://drive.google.com/uc?export=view&id=1CAjmqnHiZGRnfuv3BZkgpX6fRnJJrKWw" alt="Long Quiz 01" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;img-placeholder&quot;><span>LongQuiz01.jpg</span></div>'">
+        </div>
+      </div>
+      <div class="reflection-box">
+        <strong>Personal Reflection</strong>
+        Here, I refreshed my mind about the first discussion until the present at that time. From types of visual arts and media forms to film terminologies.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <p class="quiz-date">Midterm Exam</p>
+      <h3>Summative Test</h3>
+      <p>The examination was approachable but still meaningful &mdash; all questions were rooted in the actual discussions, which made studying feel purposeful rather than arbitrary. It tested real comprehension rather than rote memorization.</p>
+      <div class="output-images">
+        <div class="output-img-wrap">
+          <img src="https://drive.google.com/uc?export=view&id=1E1BtWDWR2XDLTt3r6xO4k-f77gYYdPMc" alt="Summative Test" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;img-placeholder&quot;><span>SummaTest.jpg</span></div>'">
+        </div>
+      </div>
+      <div class="reflection-box">
+        <strong>Personal Reflection</strong>
+        This exam exempted me from the midterm examination, which was both a reward and a motivation to maintain my focus throughout the remaining weeks. It validated that consistent engagement with the lessons genuinely pays off. A milestone I am proud of.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <span class="footer-name">John Manuel M. Gumabao</span>
+  Bachelor of Science in Information Technology &middot; 2nd Year &middot; Block A
+  <br><br>
+  E-Portfolio &middot; Academic Year 2025&ndash;2026
+</footer>
+
+<script>
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  document.getElementById('lightbox-close').addEventListener('click', () => lb.classList.remove('active'));
+  lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('active'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('active'); });
+  document.querySelectorAll('.output-img-wrap img').forEach(img => {
+    img.addEventListener('click', () => { lbImg.src = img.src; lbImg.alt = img.alt; lb.classList.add('active'); });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal, .quiz-item').forEach(el => observer.observe(el));
+  document.querySelectorAll('.exp-card, .feedback-card').forEach((c, i) => { c.style.transitionDelay = (i * 0.08) + 's'; });
+</script>
+</body>
+</html>
